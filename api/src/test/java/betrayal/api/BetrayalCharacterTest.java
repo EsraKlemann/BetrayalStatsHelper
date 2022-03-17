@@ -3,7 +3,6 @@ package betrayal.api;
 import org.junit.jupiter.api.Test;
 
 import betrayal.api.models.*;
-import betrayal.domain.MancalaImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -11,26 +10,17 @@ import static org.mockito.Mockito.*;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.core.*;
 
-public class StartMancalaTest {
+public class BetrayalCharacterTest {
     @Test
-    public void startingMancalaShouldBeAllowed() {
+    public void choosingACharacterShouldBeAllowed() {
         var response = startMancala("Mario", "Luigi");
         assertEquals(200, response.getStatus());
     }
 
     @Test
-    public void startingMancalaReturnsAGameWithoutAWinner() {
+    public void choosingACharacterReturnsItsStats() {
         var response = startMancala("Mario", "Luigi");
-        var entity = (Mancala)response.getEntity();
-        var gameState = entity.getGameStatus();
-        assertFalse(gameState.getEndOfGame());
-        assertNull(gameState.getWinner());
-    }
-
-    @Test
-    public void startingMancalaReturnsThePlayerData() {
-        var response = startMancala("Mario", "Luigi");
-        var entity = (Mancala)response.getEntity();
+        var entity = (Mancala) response.getEntity();
         var players = entity.getPlayers();
         assertEquals(2, players.length);
         assertEquals("Mario", players[0].getName());
@@ -40,7 +30,7 @@ public class StartMancalaTest {
     @Test
     public void startingMancalaReturnsThePits() {
         var response = startMancala("Mario", "Luigi");
-        var entity = (Mancala)response.getEntity();
+        var entity = (Mancala) response.getEntity();
         var players = entity.getPlayers();
         assertEquals(7, players[0].getPits().length);
         assertEquals(0, players[0].getPits()[0].getIndex());

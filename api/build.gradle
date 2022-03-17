@@ -22,11 +22,12 @@ dependencies {
     // Use the Jetty server.
     implementation 'org.eclipse.jetty:jetty-server:+'
     implementation 'org.eclipse.jetty:jetty-servlet:+'
+    implementation 'org.eclipse.jetty:jetty-servlets:+'
     implementation 'org.eclipse.jetty:jetty-webapp:+'
     // We want to have some logging output if things go wrong, so use the simple console logger from SLF4J.
     // In our simple use case, the logger gets automatically configured by simply existing.
     implementation 'org.slf4j:slf4j-simple:+'
-    
+
     // Reference the domain subproject.
     implementation project(':domain')
 
@@ -41,7 +42,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'mancala.App'
+    mainClassName = 'betrayal.App'
 }
 
 test {

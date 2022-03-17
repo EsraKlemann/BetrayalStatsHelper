@@ -1,7 +1,6 @@
 plugins {
-    // Tell Gradle that we are builing java as a library (non-executable piece of code intended for use by other applications).
     id 'java'
-    id 'java-library'
+    id 'jacoco'
 }
 
 repositories {
@@ -9,13 +8,6 @@ repositories {
     jcenter()
 }
 
-dependencies {
-    // Download JUnit so that we can use it in our tests.
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
-}
-
 test {
-    // For running our tests, use the test runner provided by JUnit.
     useJUnitPlatform()
 }
