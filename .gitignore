@@ -3,6 +3,7 @@
 
 # Ignore Gradle build output directory
 build
-
+api/bin/*
+domain/bin/*
 node_modules
 client/node_modules
