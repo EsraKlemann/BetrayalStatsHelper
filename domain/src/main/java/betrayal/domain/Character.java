@@ -4,10 +4,15 @@ public class Character {
 
     private final String name;
     private final int age;
+    private final int defaultSpIndex;
 
-    public Character(String name, int age) {
+    private final int[] speedStats;
+
+    public Character(String name, int age, int[] speedStats, int defaultSpIndex) {
         this.name = name;
         this.age = age;
+        this.speedStats = speedStats;
+        this.defaultSpIndex = defaultSpIndex;
     }
 
     public String getName() {
@@ -18,8 +23,16 @@ public class Character {
         return age;
     }
 
-    public Integer getSpeed() {
-        return 4;
+    public Integer getSpeed(int index) {
+        return speedStats[index];
+    }
+
+    public int getDefaultSpIndex() {
+        return defaultSpIndex;
+    }
+
+    public Integer getDefaultSpeed(int defaultSpIndex) {
+        return speedStats[defaultSpIndex];
     }
 
     public Integer getMight() {

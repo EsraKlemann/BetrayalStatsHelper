@@ -13,7 +13,7 @@ public class CharacterStore {
     }
 
     public static final CharacterStore characterStore = new CharacterStore(new Character[] {
-            new Character("Father Rhinehardt", 66),
+            new Character("Father Rhinehardt", 66, new int[] { 3, 3, 4, 5, 6, 7 }),
             new Character("Professor Longfellow", 80),
             new Character("Peter Akimoto", 13),
             new Character("Brandon Jaspers", 12),

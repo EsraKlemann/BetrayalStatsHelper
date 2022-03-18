@@ -8,7 +8,7 @@ public class CharacterStoreTest {
     @Test
     public void tests() {
         CharacterStore cs = new CharacterStore(new Character[] {
-                new Character("Emmy", 29)
+                new Character("Emmy", 29, null)
         });
 
         assertEquals("Emmy", cs.getCharacterById(1).getName());

@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.*;
 public class BetrayalCharacterTest {
     @Test
     public void choosingACharacterShouldBeAllowed() {
-        var response = startMancala("Mario", "Luigi");
+        var response = initialize("Mario", "Luigi");
         assertEquals(200, response.getStatus());
     }
 
