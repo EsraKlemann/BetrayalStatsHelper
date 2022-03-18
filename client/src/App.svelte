@@ -10,7 +10,7 @@
         { id: 2, text: `Professor Longfellow` },
         { id: 3, text: `Peter Akimoto` },
         { id: 4, text: `Brandon Jaspers` },
-        { id: 5, text: `JennyLeClerc` },
+        { id: 5, text: `Jenny LeClerc` },
         { id: 6, text: `Heather Granville` },
         { id: 7, text: `Vivian Lopez` },
         { id: 8, text: `Madame Zostra` },
