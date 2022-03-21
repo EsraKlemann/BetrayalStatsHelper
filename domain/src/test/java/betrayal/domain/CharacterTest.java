@@ -28,19 +28,19 @@ public class CharacterTest {
     @Test
     public void aCharacterHasAMightTrait() {
         Character one = new Character("esra", 12, null, 0);
-        assertEquals(4, one.getMight());
+        assertEquals(4, one.getMight(0));
     }
 
     @Test
     public void aCharacterHasASanityTrait() {
         Character one = new Character("esra", 12, null, 0);
-        assertEquals(4, one.getSanity());
+        assertEquals(4, one.getSanity(0));
     }
 
     @Test
     public void aCharacterHasAKnowledgeTrait() {
         Character one = new Character("esra", 12, null, 0);
-        assertEquals(4, one.getKnowledge());
+        assertEquals(4, one.getKnowledge(0));
     }
 
     @Test
