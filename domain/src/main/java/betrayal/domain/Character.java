@@ -14,14 +14,17 @@ public class Character {
     private final int[] sanityStats;
     private final int[] knowledgeStats;
 
-    public Character(String name, int age, int[] speedStats, int defaultSpIndex) {
+    public Character(String name, int age, int[] speedStats, int defaultSpIndex, int[] mightStats, int defaultMiIndex, int[] sanityStats, int defaultSaIndex, int[] knowledgeStats, int defaultKnIndex) {
         this.name = name;
         this.age = age;
         this.speedStats = speedStats;
         this.defaultSpIndex = defaultSpIndex;
         this.mightStats = mightStats;
+        this.defaultMiIndex = defaultMiIndex;
         this.sanityStats = sanityStats;
+        this.defaultSaIndex = defaultSaIndex;
         this.knowledgeStats = knowledgeStats;
+        this.defaultKnIndex = defaultKnIndex;
     }
 
     public String getName() {
@@ -48,12 +51,36 @@ public class Character {
         return mightStats[index];
     }
 
+    public int getDefaultMiIndex() {
+        return defaultMiIndex;
+    }
+
+    public int getDefaultMight(int defaultMiIndex) {
+        return mightStats[defaultMiIndex];
+    }
+
     public int getSanity(int index) {
         return sanityStats[index];
     }
 
+    public int getDefaultSaIndex() {
+        return defaultSaIndex;
+    }
+
+    public int getDefaultSanity(int defaultSaIndex) {
+        return sanityStats[defaultSaIndex];
+    }
+
     public int getKnowledge(int index) {
         return knowledgeStats[index];
+    }
+
+    public int getDefaultKnIndex() {
+        return defaultKnIndex;
+    }
+
+    public int getDefaultKnowledge(int defaultKnIndex) {
+        return knowledgeStats[defaultKnIndex];
     }
 
 }

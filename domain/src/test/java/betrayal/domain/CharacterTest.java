@@ -6,56 +6,95 @@ import org.junit.jupiter.api.Test;
 
 public class CharacterTest {
 
+    //Character cat = new Character("Ivy", age, speedStats, defaultSpIndex, mightStats, defaultMiIndex, sanityStats, defaultSaIndex, knowledgeStats, defaultKnIndex)
+    
     @Test
     public void aCharacterHasAName() {
-        Character one = new Character("esra", 12, null, 0);
-        assertEquals("esra", one.getName());
+        Character cat = new Character("Ivy", 6, null, 0, null, 0, null, 0, null, 0);
+        assertEquals("Ivy", cat.getName());
     }
 
     @Test
     public void aCharacterHasAnAge() {
-        Character one = new Character("esra", 29, null, 0);
-        assertEquals(29, one.getAge());
+        Character cat = new Character("Ivy", 6, null, 0, null, 0, null, 0, null, 0);
+        assertEquals(6, cat.getAge());
     }
 
     @Test
-    public void aCharacterHasASpeedTrait() {
-        int[] speedStats = { 4 };
-        Character one = new Character("esra", 12, speedStats, 0);
-        assertEquals(4, one.getSpeed(0));
+    public void aCharacterCanGiveItsSpeedTrait() {
+        int[] speedStats = { 4, 5 };
+        Character cat = new Character("Ivy", 6, speedStats, 0, null, 0, null, 0, null, 0);
+        assertEquals(4, cat.getSpeed(0));
+        assertEquals(5, cat.getSpeed(1));
     }
 
     @Test
-    public void aCharacterHasAMightTrait() {
-        Character one = new Character("esra", 12, null, 0);
-        assertEquals(4, one.getMight(0));
+    public void aCharacterCanGiveItsMightTrait() {
+        int[] mightStats = { 9, 10 };
+        Character cat = new Character("Ivy", 6, null, 0, mightStats, 0, null, 0, null, 0);
+        assertEquals(9, cat.getMight(0));
+        assertEquals(10, cat.getMight(1));
     }
 
     @Test
-    public void aCharacterHasASanityTrait() {
-        Character one = new Character("esra", 12, null, 0);
-        assertEquals(4, one.getSanity(0));
+    public void aCharacterCanGiveItsSanityTrait() {
+        int[] sanityStats = { 1, 3 };
+        Character cat = new Character("Ivy", 6, null, 0, null, 0, sanityStats, 0, null, 0);
+        assertEquals(1, cat.getSanity(0));
+        assertEquals(3, cat.getSanity(1));
     }
 
     @Test
-    public void aCharacterHasAKnowledgeTrait() {
-        Character one = new Character("esra", 12, null, 0);
-        assertEquals(4, one.getKnowledge(0));
-    }
-
-    @Test
-    public void aCharacterCanHaveDifferentSpeeds() {
-        int[] speedStats = { 1, 2, 4 };
-        Character one = new Character("esra", 12, speedStats, 0);
-        assertEquals(2, one.getSpeed(1));
+    public void aCharacterCanGiveItsKnowledgeTrait() {
+        int[] knowledgeStats = { 7, 6 };
+        Character cat = new Character("Ivy", 6, null, 0, null, 0, null, 0, knowledgeStats, 0);
+        assertEquals(7, cat.getKnowledge(0));
+        assertEquals(6, cat.getKnowledge(1));
     }
 
     @Test
     public void aCharacterHasASetStarterSpeed() {
         int[] speedStats = { 1, 2, 4 };
         int defaultSpIndex = 2;
-        Character one = new Character("esra", 12, speedStats, defaultSpIndex);
-        assertEquals(4, one.getDefaultSpeed(defaultSpIndex));
+        Character cat = new Character("Ivy", 6, speedStats, defaultSpIndex, null, 0, null, 0, null, 0);
+        assertEquals(4, cat.getDefaultSpeed(defaultSpIndex));
     }
+
+    @Test
+    public void aCharacterHasASetStarterMight() {
+        int[] speedStats = { 1, 2, 4 };
+        int defaultSpIndex = 2;
+        int[] mightStats = { 8, 9, 10};
+        int defaultMiIndex = 1;
+        Character cat = new Character("Ivy", 6, speedStats, defaultSpIndex, mightStats, defaultMiIndex, null, 0, null, 0);
+        assertEquals(9, cat.getDefaultMight(defaultMiIndex));
+    }
+
+    @Test
+    public void aCharacterHasASetStarterSanity() {
+        int[] speedStats = { 1, 2, 4 };
+        int defaultSpIndex = 2;
+        int[] mightStats = { 8, 9, 10};
+        int defaultMiIndex = 1;
+        int[] sanityStats = { 5, 4, 7};
+        int defaultSaIndex = 2;
+        Character cat = new Character("Ivy", 6, speedStats, defaultSpIndex, mightStats, defaultMiIndex, sanityStats, defaultSaIndex, null, 0);
+        assertEquals(7, cat.getDefaultSanity(defaultSaIndex));
+    }
+
+    @Test
+    public void aCharacterHasASetStarterKnowledge() {
+        int[] speedStats = { 1, 2, 4 };
+        int defaultSpIndex = 2;
+        int[] mightStats = { 8, 9, 10};
+        int defaultMiIndex = 1;
+        int[] sanityStats = { 5, 4, 7};
+        int defaultSaIndex = 2;
+        int[] knowledgeStats = { 3, 4, 6 };
+        int defaultKnIndex = 0;
+        Character cat = new Character("Ivy", 6, speedStats, defaultSpIndex, mightStats, defaultMiIndex, sanityStats, defaultSaIndex, knowledgeStats, defaultKnIndex);
+        assertEquals(3, cat.getDefaultKnowledge(defaultKnIndex));
+    }
+
 
 }
