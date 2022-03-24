@@ -1,9 +1,7 @@
 <script>
-    export let name;
-
-    let selected = { id: 0, text: " " };
-
     let character;
+ 
+    let selected = { id: 0, text: " " };
 
     let characters = [
         { id: 1, text: `Father Rhinehardt` },
@@ -27,18 +25,21 @@
 
         if (response.ok) {
             const received = await response.json();
+            console.log(received);
             character = received;
         }
     }
+
+
 </script>
 
 <main>
-    <h1>Hello {name}!</h1>
-    <p>Pick a character:</p>
+    <h1>Betrayal Stat Tracker</h1>
+    <h2>Character:</h2>
     <select bind:value={selected} on:change={(e) => updateCharacterInfo(e)}>
-        {#each characters as character}
-            <option value={character}>
-                {character.text}
+        {#each characters as selectedCharacter}
+            <option value={selectedCharacter}>
+                {selectedCharacter.text}
             </option>
         {/each}
     </select>
@@ -46,10 +47,11 @@
     {#if character}
         {@html `<p>${character.name}</p>`}
         <p>{character.age}</p>
-        <p>Stat1</p>
-        <p>Stat2</p>
-        <p>Stat3</p>
-        <p>Stat4</p>
+        <p>{character.speedStats}</p>
+        <p>{character.defaultSpIndex}</p>
+        <p>{character.mightStats}</p>
+        <p>{character.sanityStats}</p>
+        <p>{character.knowledgeStats}</p>
     {/if}
 </main>
 
@@ -62,10 +64,10 @@
     }
 
     h1 {
-        color: #ff3e00;
+        color: #832323;
         text-transform: uppercase;
         font-size: 4em;
-        font-weight: 100;
+        font-weight: 150;
     }
 
     @media (min-width: 640px) {
@@ -73,4 +75,6 @@
             max-width: none;
         }
     }
+
+    
 </style>
