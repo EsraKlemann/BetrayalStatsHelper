@@ -27,7 +27,7 @@ public class CharacterStore {
                     new int[] { 1, 3, 3, 5, 5, 6, 6, 7 }, 2),
             new Character("Jenny LeClerc", 21, new int[] { 2, 3, 4, 4, 4, 5, 6, 8 }, 3,
                     new int[] { 3, 4, 4, 4, 4, 5, 6, 8 }, 2, new int[] { 1, 1, 2, 4, 4, 4, 5, 6 }, 3,
-                    new int[] { 2, 3, 4, 4, 5, 6, 8 }, 2),
+                    new int[] { 2, 3, 3, 4, 4, 5, 6, 8 }, 2),
             new Character("Heather Granville", 18, new int[] { 3, 3, 4, 5, 6, 6, 7, 8 }, 2,
                     new int[] { 3, 3, 3, 4, 5, 6, 7, 8 }, 2, new int[] { 3, 3, 3, 4, 5, 6, 6, 6 }, 2,
                     new int[] { 2, 3, 3, 4, 5, 6, 7, 8 }, 4),

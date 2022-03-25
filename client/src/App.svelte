@@ -1,7 +1,18 @@
 <script>
+    import RangeSlider from "svelte-range-slider-pips";
+
     let character;
- 
+
     let selected = { id: 0, text: " " };
+
+    let speedSliderValue;
+    let speedSliderStats;
+    let mightSliderValue;
+    let mightSliderStats;
+    let sanitySliderValue;
+    let sanitySliderStats;
+    let knowledgeSliderValue;
+    let knowledgeSliderStats;
 
     let characters = [
         { id: 1, text: `Father Rhinehardt` },
@@ -27,10 +38,23 @@
             const received = await response.json();
             console.log(received);
             character = received;
+            speedSliderValue = character.defaultSpIndex;
+            speedSliderStats = [...character.speedStats];
+            speedSliderStats.unshift("💀");
+            mightSliderValue = character.defaultMiIndex;
+            mightSliderStats = [...character.mightStats];
+            mightSliderStats.unshift("💀");
+            sanitySliderValue = character.defaultSaIndex;
+            sanitySliderStats = [...character.sanityStats];
+            sanitySliderStats.unshift("💀");
+            knowledgeSliderValue = character.defaultKnIndex;
+            knowledgeSliderStats = [...character.knowledgeStats];
+            knowledgeSliderStats.unshift("💀");
+        }
+
+        if (localStorage.getItem(selected.id)) {
         }
     }
-
-
 </script>
 
 <main>
@@ -45,13 +69,81 @@
     </select>
 
     {#if character}
-        {@html `<p>${character.name}</p>`}
-        <p>{character.age}</p>
-        <p>{character.speedStats}</p>
-        <p>{character.defaultSpIndex}</p>
-        <p>{character.mightStats}</p>
+        <p>
+            {character.name}, age {character.age}, [Is dit een saved character?]
+        </p>
+
+        <p>Speed array: {character.speedStats}</p>
+        <p class="statNames">Speed</p>
+        <div class="speedSlider">
+            <RangeSlider
+                id="speed-slider"
+                bind:values={speedSliderValue}
+                formatter={(v) => speedSliderStats[v]}
+                min={0}
+                max={8}
+                pips
+                all="label"
+            />
+        </div>
+        <p class="currentStats">
+            Current speed: {speedSliderStats[speedSliderValue]}
+        </p>
+        <p>Default speed: {character.defaultSpIndex}</p>
+
+        <p>Might array: {character.mightStats}</p>
+        <p class="statNames">Might</p>
+        <div class="mightSlider">
+            <RangeSlider
+                id="might-slider"
+                bind:values={mightSliderValue}
+                formatter={(v) => mightSliderStats[v]}
+                min={0}
+                max={8}
+                pips
+                all="label"
+            />
+        </div>
+        <p class="currentStats">
+            current Might: {mightSliderStats[mightSliderValue]}
+        </p>
+        <p>Default Might, nog kleuren: {character.defaultMiIndex}</p>
+
         <p>{character.sanityStats}</p>
+        <p class="statNames">Sanity</p>
+        <div class="sanitySlider">
+            <RangeSlider
+                id="sanity-slider"
+                bind:values={sanitySliderValue}
+                formatter={(v) => sanitySliderStats[v]}
+                min={0}
+                max={8}
+                pips
+                all="label"
+            />
+        </div>
+        <p class="currentStats">
+            current Sanity: {sanitySliderStats[sanitySliderValue]}
+        </p>
+        <p>Default Sanity, nog kleuren: {character.defaultSaIndex}</p>
+
         <p>{character.knowledgeStats}</p>
+        <p class="statNames">Knowledge</p>
+        <div class="knowledgeSlider">
+            <RangeSlider
+                id="knowledge-slider"
+                bind:values={knowledgeSliderValue}
+                formatter={(v) => knowledgeSliderStats[v]}
+                min={0}
+                max={8}
+                pips
+                all="label"
+            />
+        </div>
+        <p class="currentStats">
+            current Knowledge: {knowledgeSliderStats[knowledgeSliderValue]}
+        </p>
+        <p>Default Knowledge, nog kleuren: {character.defaultKnIndex}</p>
     {/if}
 </main>
 
@@ -75,6 +167,4 @@
             max-width: none;
         }
     }
-
-    
 </style>
