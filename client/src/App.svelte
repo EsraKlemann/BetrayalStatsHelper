@@ -75,7 +75,7 @@
 
         <p>Speed array: {character.speedStats}</p>
         <p class="statNames">Speed</p>
-        <div class="speedSlider">
+        <div id="speed-slider" class="speedSlider">
             <RangeSlider
                 id="speed-slider"
                 bind:values={speedSliderValue}
@@ -131,6 +131,7 @@
         <p class="statNames">Knowledge</p>
         <div class="knowledgeSlider">
             <RangeSlider
+                element
                 id="knowledge-slider"
                 bind:values={knowledgeSliderValue}
                 formatter={(v) => knowledgeSliderStats[v]}
@@ -148,23 +149,74 @@
 </main>
 
 <style>
+    #speed-slider {
+        color: red;
+    }
+
     main {
         text-align: center;
-        padding: 1em;
+        align-items: center;
+        padding: 15px;
         max-width: 240px;
         margin: 0 auto;
     }
 
     h1 {
-        color: #832323;
+        color: #912e2e;
         text-transform: uppercase;
-        font-size: 4em;
-        font-weight: 150;
+        font-size: 3.6em;
+        font-weight: 200;
     }
 
-    @media (min-width: 640px) {
+    @media (min-width: 500px) {
         main {
             max-width: none;
         }
+    }
+
+    .statNames {
+        font-size: 1.8rem;
+        font-weight: 450;
+    }
+
+    .currentStats {
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    .speedSlider {
+        max-width: 70%;
+        margin: 0 auto;
+        --range-slider: #d7dada;
+        --range-handle-inactive: #bb3030c2;
+        --range-handle: #bb3030c2;
+        --range-handle-focus: #bb3030;
+    }
+
+    .mightSlider {
+        max-width: 70%;
+        margin: 0 auto;
+        --range-slider: #d7dada;
+        --range-handle-inactive: #99a2a2;
+        --range-handle: #838de7;
+        --range-handle-focus: #4a40d4;
+    }
+
+    .sanitySlider {
+        max-width: 70%;
+        margin: 0 auto;
+        --range-slider: #d7dada;
+        --range-handle-inactive: #99a2a2;
+        --range-handle: #838de7;
+        --range-handle-focus: #4a40d4;
+    }
+
+    .knowledgeSlider {
+        max-width: 70%;
+        margin: 0 auto;
+        --range-slider: #d7dada;
+        --range-handle-inactive: #99a2a2;
+        --range-handle: #838de7;
+        --range-handle-focus: #4a40d4;
     }
 </style>
