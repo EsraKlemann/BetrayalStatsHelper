@@ -1,6 +1,7 @@
 <script>
     import RangeSlider from "svelte-range-slider-pips";
 
+    let message = "Default character";
     let character;
 
     let selected = { id: 0, text: " " };
@@ -30,36 +31,84 @@
     ];
 
     async function updateCharacterInfo(e) {
-        const response = await fetch(
+        if (localStorage.getItem(selected.id)) {
+            character = JSON.parse(localStorage.getItem(selected.id));
+            speedSliderValue = character.speedIndex;
+            speedSliderStats = [...character.speedStats];
+            speedSliderStats.unshift("💀");
+            mightSliderValue = character.mightIndex;
+            mightSliderStats = [...character.mightStats];
+            mightSliderStats.unshift("💀");
+            sanitySliderValue = character.sanityIndex;
+            sanitySliderStats = [...character.sanityStats];
+            sanitySliderStats.unshift("💀");
+            knowledgeSliderValue = character.knowledgeIndex;
+            knowledgeSliderStats = [...character.knowledgeStats];
+            knowledgeSliderStats.unshift("💀");
+            message = "Saved character";
+        }
+        
+        else {
+            const response = await fetch(
             `http://localhost:8090/betrayal/api/character?id=${selected.id}`
         );
 
-        if (response.ok) {
-            const received = await response.json();
-            console.log(received);
-            character = received;
-            speedSliderValue = character.defaultSpIndex;
-            speedSliderStats = [...character.speedStats];
-            speedSliderStats.unshift("💀");
-            mightSliderValue = character.defaultMiIndex;
-            mightSliderStats = [...character.mightStats];
-            mightSliderStats.unshift("💀");
-            sanitySliderValue = character.defaultSaIndex;
-            sanitySliderStats = [...character.sanityStats];
-            sanitySliderStats.unshift("💀");
-            knowledgeSliderValue = character.defaultKnIndex;
-            knowledgeSliderStats = [...character.knowledgeStats];
-            knowledgeSliderStats.unshift("💀");
+            if (response.ok) {
+                const received = await response.json();
+                character = received;
+                speedSliderValue = character.defaultSpIndex;
+                speedSliderStats = [...character.speedStats];
+                speedSliderStats.unshift("💀");
+                mightSliderValue = character.defaultMiIndex;
+                mightSliderStats = [...character.mightStats];
+                mightSliderStats.unshift("💀");
+                sanitySliderValue = character.defaultSaIndex;
+                sanitySliderStats = [...character.sanityStats];
+                sanitySliderStats.unshift("💀");
+                knowledgeSliderValue = character.defaultKnIndex;
+                knowledgeSliderStats = [...character.knowledgeStats];
+                knowledgeSliderStats.unshift("💀");
+            }
         }
 
-        if (localStorage.getItem(selected.id)) {
-        }
     }
+
+
+    function showInfo() {
+		alert('Maybe make a Modal for this?')
+	}
+
+	function handleReset() {
+        handleRemove();
+        updateCharacterInfo();
+	}
+
+    function handleRemove() {
+        localStorage.removeItem(selected.id);
+    }
+
+	function handleSave() {
+        var characterSave = {
+            name: character.name,
+            age: character.age,
+            speedStats: character.speedStats,
+            speedIndex: speedSliderValue,
+            mightStats: character.mightStats,
+            mightIndex: mightSliderValue,
+            sanityStats: character.sanityStats,
+            sanityIndex: sanitySliderValue,
+            knowledgeStats: character.knowledgeStats,
+            knowledgeIndex: knowledgeSliderValue
+        };
+		localStorage.setItem(selected.id, JSON.stringify(characterSave));
+	}
 </script>
+
+
 
 <main>
     <h1>Betrayal Stat Tracker</h1>
-    <h2>Character:</h2>
+    <h2>Character:</h2> 
     <select bind:value={selected} on:change={(e) => updateCharacterInfo(e)}>
         {#each characters as selectedCharacter}
             <option value={selectedCharacter}>
@@ -70,10 +119,19 @@
 
     {#if character}
         <p>
-            {character.name}, age {character.age}, [Is dit een saved character?]
+            {character.name}, age {character.age}, {message}
         </p>
+        <button on:click={handleSave}>
+            Save Character
+        </button>
+        <button on:click={handleRemove}>
+            Remove saved Character
+        </button>
+        <button on:click={handleReset}>
+            Reset
+        </button>
+        
 
-        <p>Speed array: {character.speedStats}</p>
         <p class="statNames">Speed</p>
         <div id="speed-slider" class="speedSlider">
             <RangeSlider
@@ -89,9 +147,7 @@
         <p class="currentStats">
             Current speed: {speedSliderStats[speedSliderValue]}
         </p>
-        <p>Default speed: {character.defaultSpIndex}</p>
 
-        <p>Might array: {character.mightStats}</p>
         <p class="statNames">Might</p>
         <div class="mightSlider">
             <RangeSlider
@@ -107,7 +163,7 @@
         <p class="currentStats">
             current Might: {mightSliderStats[mightSliderValue]}
         </p>
-        <p>Default Might, nog kleuren: {character.defaultMiIndex}</p>
+        <!--Default Might, nog kleuren: {character.defaultMiIndex}</p>-->
 
         <p>{character.sanityStats}</p>
         <p class="statNames">Sanity</p>
@@ -127,7 +183,7 @@
         </p>
         <p>Default Sanity, nog kleuren: {character.defaultSaIndex}</p>
 
-        <p>{character.knowledgeStats}</p>
+        <!--<p>{character.knowledgeStats}</p>-->
         <p class="statNames">Knowledge</p>
         <div class="knowledgeSlider">
             <RangeSlider
@@ -144,15 +200,19 @@
         <p class="currentStats">
             current Knowledge: {knowledgeSliderStats[knowledgeSliderValue]}
         </p>
-        <p>Default Knowledge, nog kleuren: {character.defaultKnIndex}</p>
+        <!--<p>Default Knowledge, nog kleuren: {character.defaultKnIndex}</p>-->
     {/if}
+
+    <button on:click={showInfo}>
+        Info
+    </button>		
+            
+    
+            
+    
 </main>
 
 <style>
-    #speed-slider {
-        color: red;
-    }
-
     main {
         text-align: center;
         align-items: center;
@@ -197,26 +257,26 @@
         max-width: 70%;
         margin: 0 auto;
         --range-slider: #d7dada;
-        --range-handle-inactive: #99a2a2;
-        --range-handle: #838de7;
-        --range-handle-focus: #4a40d4;
+        --range-handle-inactive: rgba(255, 142, 132, 0.883);
+        --range-handle: rgba(255, 142, 132, 0.883);
+        --range-handle-focus: rgb(255, 142, 132);
     }
 
     .sanitySlider {
         max-width: 70%;
         margin: 0 auto;
         --range-slider: #d7dada;
-        --range-handle-inactive: #99a2a2;
-        --range-handle: #838de7;
-        --range-handle-focus: #4a40d4;
+        --range-handle-inactive: #4756e2be;
+        --range-handle: #4756e2be;
+        --range-handle-focus: #382be4;
     }
 
     .knowledgeSlider {
         max-width: 70%;
         margin: 0 auto;
         --range-slider: #d7dada;
-        --range-handle-inactive: #99a2a2;
-        --range-handle: #838de7;
-        --range-handle-focus: #4a40d4;
+        --range-handle-inactive: #7cf1bad8;
+        --range-handle: #7cf1bad8;
+        --range-handle-focus: #7cf1ba;
     }
 </style>

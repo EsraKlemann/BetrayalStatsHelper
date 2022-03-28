@@ -28,6 +28,7 @@ public class CharacterTest {
         Character cat = new Character("Ivy", 6, speedStats, 0, null, 0, null, 0, null, 0);
         assertEquals(4, cat.getSpeed(0));
         assertEquals(5, cat.getSpeed(1));
+        assertArrayEquals(speedStats, cat.getSpeedStats());
     }
 
     @Test
@@ -36,6 +37,7 @@ public class CharacterTest {
         Character cat = new Character("Ivy", 6, null, 0, mightStats, 0, null, 0, null, 0);
         assertEquals(9, cat.getMight(0));
         assertEquals(10, cat.getMight(1));
+        assertArrayEquals(mightStats, cat.getMightStats());
     }
 
     @Test
@@ -44,6 +46,7 @@ public class CharacterTest {
         Character cat = new Character("Ivy", 6, null, 0, null, 0, sanityStats, 0, null, 0);
         assertEquals(1, cat.getSanity(0));
         assertEquals(3, cat.getSanity(1));
+        assertArrayEquals(sanityStats, cat.getSanityStats());
     }
 
     @Test
@@ -52,6 +55,7 @@ public class CharacterTest {
         Character cat = new Character("Ivy", 6, null, 0, null, 0, null, 0, knowledgeStats, 0);
         assertEquals(7, cat.getKnowledge(0));
         assertEquals(6, cat.getKnowledge(1));
+        assertArrayEquals(knowledgeStats, cat.getKnowledgeStats());
     }
 
     @Test
@@ -59,7 +63,7 @@ public class CharacterTest {
         int[] speedStats = { 1, 2, 4 };
         int defaultSpIndex = 2;
         Character cat = new Character("Ivy", 6, speedStats, defaultSpIndex, null, 0, null, 0, null, 0);
-        assertEquals(4, cat.getSpeed(defaultSpIndex));
+        assertEquals(2, cat.getDefaultSpIndex());
     }
 
     @Test
@@ -70,7 +74,7 @@ public class CharacterTest {
         int defaultMiIndex = 1;
         Character cat = new Character("Ivy", 6, speedStats, defaultSpIndex, mightStats, defaultMiIndex, null, 0, null,
                 0);
-        assertEquals(9, cat.getMight(defaultMiIndex));
+        assertEquals(1, cat.getDefaultMiIndex());
     }
 
     @Test
@@ -83,7 +87,7 @@ public class CharacterTest {
         int defaultSaIndex = 2;
         Character cat = new Character("Ivy", 6, speedStats, defaultSpIndex, mightStats, defaultMiIndex, sanityStats,
                 defaultSaIndex, null, 0);
-        assertEquals(7, cat.getSanity(defaultSaIndex));
+        assertEquals(2, cat.getDefaultSaIndex());
     }
 
     @Test
@@ -98,7 +102,7 @@ public class CharacterTest {
         int defaultKnIndex = 0;
         Character cat = new Character("Ivy", 6, speedStats, defaultSpIndex, mightStats, defaultMiIndex, sanityStats,
                 defaultSaIndex, knowledgeStats, defaultKnIndex);
-        assertEquals(3, cat.getKnowledge(defaultKnIndex));
+        assertEquals(0, cat.getDefaultKnIndex());
     }
 
 }
