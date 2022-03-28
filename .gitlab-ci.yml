@@ -1,40 +1,38 @@
-
 image: gradle:7.4
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle  
+  - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
-    - build
-    - test
-    - checkstyle
-    - deploy
-    - release
+  - build
+  - test
+  - checkstyle
+  - deploy
+  - release
 
 build:
   stage: build
-  script: 
+  script:
     - echo "building gradle..."
     - gradle assemble
 
 test:
   stage: test
   script:
-      - echo "running unit tests..."
-      - gradle test
-      - gradle jacocoTestCoverageVerification --info
-      - gradle testCodeCoverageReport
-      - cat $CI_PROJECT_DIR/build/reports/jacoco/testCodeCoverageReport/html/index.html | grep -o 'Total[^%]*%'
-  coverage: '/Total.*?([0-9]{1,3})%/'
+    - echo "running unit tests..."
+    - gradle test
+    - gradle jacocoTestCoverageVerification --info
+    - cat $CI_PROJECT_DIR/build/reports/jacoco/testCodeCoverageReport/html/index.html | grep -o 'Total[^%]*%'
+  coverage: "/Total.*?([0-9]{1,3})%/"
   artifacts:
     paths:
       - $CI_PROJECT_DIR/api/build/reports/*
       - $CI_PROJECT_DIR/domain/build/reports/*
-   
-checkstyle: 
+
+checkstyle:
   stage: checkstyle
   script:
     - gradle check
@@ -44,37 +42,35 @@ checkstyle:
       - $CI_PROJECT_DIR/api/build/reports/*
       - $CI_PROJECT_DIR/domain/build/reports/*
 
-
 deploy:
   stage: deploy
-  rules: 
+  rules:
     - if: $CI_COMMIT_TAG
-  script: 
+  script:
     - gradle -Pversion=$CI_COMMIT_TAG distZip
     - echo RE_JOB_ID=$CI_JOB_ID >> distribute-job.env
   artifacts:
     paths:
-    - $CI_PROJECT_DIR/api/build/distributions/*
+      - $CI_PROJECT_DIR/api/build/distributions/*
     reports:
       dotenv: distribute-job.env
-   
+
 release:
   stage: release
-  image:  registry.gitlab.com/gitlab-org/release-cli:latest 
-  needs: 
-     - job: deploy
-       artifacts: true
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - job: deploy
+      artifacts: true
   rules:
-     - if: $CI_COMMIT_TAG 
+    - if: $CI_COMMIT_TAG
   script:
     - echo 'Running release...'
   release:
-    name: 'Release $CI_COMMIT_TAG'
-    description: 'Created using the release cli'
-    tag_name: '$CI_COMMIT_TAG'
-    ref: '$CI_COMMIT_SHA'
+    name: "Release $CI_COMMIT_TAG"
+    description: "Created using the release cli"
+    tag_name: "$CI_COMMIT_TAG"
+    ref: "$CI_COMMIT_SHA"
     assets:
       links:
-        - name: 'Api zip'
-          url: 'https://git.sogyo.nl/eklemann/betrayalstatsesra/-/jobs/${RE_JOB_ID}/artifacts/file/api/build/distributions/api-$CI_COMMIT_TAG.zip'
-
+        - name: "Api zip"
+          url: "https://git.sogyo.nl/eklemann/betrayalstatsesra/-/jobs/${RE_JOB_ID}/artifacts/file/api/build/distributions/api-$CI_COMMIT_TAG.zip"
