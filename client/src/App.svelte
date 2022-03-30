@@ -46,12 +46,10 @@
             knowledgeSliderStats = [...character.knowledgeStats];
             knowledgeSliderStats.unshift("💀");
             message = "Saved character";
-        }
-        
-        else {
+        } else {
             const response = await fetch(
-            `http://localhost:8090/betrayal/api/character?id=${selected.id}`
-        );
+                `http://localhost:8090/betrayal/api/character?id=${selected.id}`
+            );
 
             if (response.ok) {
                 const received = await response.json();
@@ -70,24 +68,22 @@
                 knowledgeSliderStats.unshift("💀");
             }
         }
-
     }
 
-
     function showInfo() {
-		alert('Maybe make a Modal for this?')
-	}
+        alert("Maybe make a Modal for this?");
+    }
 
-	function handleReset() {
+    function handleReset() {
         handleRemove();
         updateCharacterInfo();
-	}
+    }
 
     function handleRemove() {
         localStorage.removeItem(selected.id);
     }
 
-	function handleSave() {
+    function handleSave() {
         var characterSave = {
             name: character.name,
             age: character.age,
@@ -98,17 +94,19 @@
             sanityStats: character.sanityStats,
             sanityIndex: sanitySliderValue,
             knowledgeStats: character.knowledgeStats,
-            knowledgeIndex: knowledgeSliderValue
+            knowledgeIndex: knowledgeSliderValue,
         };
-		localStorage.setItem(selected.id, JSON.stringify(characterSave));
-	}
+        localStorage.setItem(selected.id, JSON.stringify(characterSave));
+    }
 </script>
 
-
+<header>
+    <button class="helpBtn" on:click={showInfo}> Turn helper </button>
+</header>
 
 <main>
     <h1>Betrayal Stat Tracker</h1>
-    <h2>Character:</h2> 
+    <h2>Character</h2>
     <select bind:value={selected} on:change={(e) => updateCharacterInfo(e)}>
         {#each characters as selectedCharacter}
             <option value={selectedCharacter}>
@@ -118,19 +116,11 @@
     </select>
 
     {#if character}
-        <p>
-            {character.name}, age {character.age}, {message}
-        </p>
-        <button on:click={handleSave}>
-            Save Character
-        </button>
-        <button on:click={handleRemove}>
-            Remove saved Character
-        </button>
-        <button on:click={handleReset}>
-            Reset
-        </button>
-        
+        <p>Age: {character.age}</p>
+        <p>{message}</p>
+        <button on:click={handleSave}> Save </button>
+        <button on:click={handleRemove}> Remove saved</button>
+        <button on:click={handleReset}> Default</button>
 
         <p class="statNames">Speed</p>
         <div id="speed-slider" class="speedSlider">
@@ -144,9 +134,9 @@
                 all="label"
             />
         </div>
-        <p class="currentStats">
+        <!--<p class="currentStats">
             Current speed: {speedSliderStats[speedSliderValue]}
-        </p>
+        </p>-->
 
         <p class="statNames">Might</p>
         <div class="mightSlider">
@@ -160,12 +150,12 @@
                 all="label"
             />
         </div>
-        <p class="currentStats">
+        <!--<p class="currentStats">
             current Might: {mightSliderStats[mightSliderValue]}
         </p>
-        <!--Default Might, nog kleuren: {character.defaultMiIndex}</p>-->
+        Default Might, nog kleuren: {character.defaultMiIndex}</p>-->
 
-        <p>{character.sanityStats}</p>
+        <!--<p>{character.sanityStats}</p>-->
         <p class="statNames">Sanity</p>
         <div class="sanitySlider">
             <RangeSlider
@@ -178,10 +168,10 @@
                 all="label"
             />
         </div>
-        <p class="currentStats">
+        <!--<p class="currentStats">
             current Sanity: {sanitySliderStats[sanitySliderValue]}
         </p>
-        <p>Default Sanity, nog kleuren: {character.defaultSaIndex}</p>
+        <p>Default Sanity, nog kleuren: {character.defaultSaIndex}</p>-->
 
         <!--<p>{character.knowledgeStats}</p>-->
         <p class="statNames">Knowledge</p>
@@ -197,26 +187,23 @@
                 all="label"
             />
         </div>
-        <p class="currentStats">
-            current Knowledge: {knowledgeSliderStats[knowledgeSliderValue]}
+        <!--<p class="currentStats">
+            current Knowledge: {knowledgeSliderStats[
+                knowledgeSliderValue
+            ]}
         </p>
-        <!--<p>Default Knowledge, nog kleuren: {character.defaultKnIndex}</p>-->
+        <p>Default Knowledge, nog kleuren: {character.defaultKnIndex}</p>-->
     {/if}
-
-    <button on:click={showInfo}>
-        Info
-    </button>		
-            
-    
-            
-    
 </main>
 
 <style>
+    .helpBtn {
+        align-self: flex-start;
+    }
+
     main {
         text-align: center;
         align-items: center;
-        padding: 15px;
         max-width: 240px;
         margin: 0 auto;
     }
@@ -224,8 +211,13 @@
     h1 {
         color: #912e2e;
         text-transform: uppercase;
-        font-size: 3.6em;
+        font-size: 3.8em;
         font-weight: 200;
+    }
+
+    h2 {
+        text-transform: uppercase;
+        font-weight: 150;
     }
 
     @media (min-width: 500px) {
@@ -237,11 +229,6 @@
     .statNames {
         font-size: 1.8rem;
         font-weight: 450;
-    }
-
-    .currentStats {
-        font-size: 1.5rem;
-        font-weight: 400;
     }
 
     .speedSlider {
@@ -278,5 +265,6 @@
         --range-handle-inactive: #7cf1bad8;
         --range-handle: #7cf1bad8;
         --range-handle-focus: #7cf1ba;
+        padding-bottom: 1.5rem;
     }
 </style>
