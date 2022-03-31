@@ -1,7 +1,7 @@
 <script>
     import RangeSlider from "svelte-range-slider-pips";
 
-    let message = "Default character";
+    let message = "";
     let character;
 
     let selected = { id: 0, text: " " };
@@ -101,13 +101,17 @@
 </script>
 
 <header>
-    <button class="helpBtn" on:click={showInfo}> Turn helper </button>
+    <button class="helpBtn" on:click={showInfo}> ❓ Turn helper </button>
 </header>
 
 <main>
     <h1>Betrayal Stat Tracker</h1>
     <h2>Character</h2>
-    <select bind:value={selected} on:change={(e) => updateCharacterInfo(e)}>
+    <select
+        class="charDropdown"
+        bind:value={selected}
+        on:change={(e) => updateCharacterInfo(e)}
+    >
         {#each characters as selectedCharacter}
             <option value={selectedCharacter}>
                 {selectedCharacter.text}
@@ -116,8 +120,10 @@
     </select>
 
     {#if character}
-        <p>Age: {character.age}</p>
-        <p>{message}</p>
+        <img src="character_images/{character.name}.png" alt={character.name} />
+
+        <p>Age {character.age}&nbsp&nbsp&nbsp&nbsp&nbsp {message}</p>
+        <p />
         <button on:click={handleSave}> Save </button>
         <button on:click={handleRemove}> Remove saved</button>
         <button on:click={handleReset}> Default</button>
@@ -218,6 +224,10 @@
     h2 {
         text-transform: uppercase;
         font-weight: 150;
+    }
+
+    .charDropdown {
+        text-align: center;
     }
 
     @media (min-width: 500px) {
