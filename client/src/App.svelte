@@ -120,7 +120,12 @@
     </select>
 
     {#if character}
-        <img src="character_images/{character.name}.png" alt={character.name} />
+        <div>
+            <img
+                src="character_images/{character.name}.png"
+                alt={character.name}
+            />
+        </div>
 
         <p>Age {character.age}&nbsp&nbsp&nbsp&nbsp&nbsp {message}</p>
         <p />
@@ -210,7 +215,6 @@
     main {
         text-align: center;
         align-items: center;
-        max-width: 240px;
         margin: 0 auto;
     }
 
