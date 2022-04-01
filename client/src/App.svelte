@@ -1,7 +1,7 @@
 <script>
     import RangeSlider from "svelte-range-slider-pips";
 
-    let message = "";
+    let message = " ";
     let character;
 
     let selected = { id: 0, text: " " };
@@ -66,6 +66,7 @@
                 knowledgeSliderValue = character.defaultKnIndex;
                 knowledgeSliderStats = [...character.knowledgeStats];
                 knowledgeSliderStats.unshift("💀");
+                message = "";
             }
         }
     }
@@ -121,18 +122,18 @@
 
     {#if character}
         <div>
-            <img
-                src="character_images/{character.name}.png"
+            <img class="charImages"
+                src="./character_images/{character.name}.png"
                 alt={character.name}
             />
         </div>
-
-        <p>Age {character.age}&nbsp&nbsp&nbsp&nbsp&nbsp {message}</p>
-        <p />
-        <button on:click={handleSave}> Save </button>
-        <button on:click={handleRemove}> Remove saved</button>
-        <button on:click={handleReset}> Default</button>
-
+        <div>
+            <p>Age {character.age}&nbsp&nbsp&nbsp&nbsp&nbsp {message}
+            <button on:click={handleSave}> Save </button>
+            {#if message == "Saved character"}<button on:click={handleRemove}> Remove saved</button>{/if}
+            <button on:click={handleReset}> Default</button>
+            </p>
+        </div>
         <p class="statNames">Speed</p>
         <div id="speed-slider" class="speedSlider">
             <RangeSlider
@@ -234,6 +235,10 @@
         text-align: center;
     }
 
+    .charImages {
+        max-width: 13rem;
+    }
+
     @media (min-width: 500px) {
         main {
             max-width: none;
@@ -248,6 +253,7 @@
     .speedSlider {
         max-width: 70%;
         margin: 0 auto;
+        padding-bottom: 0.5rem;
         --range-slider: #d7dada;
         --range-handle-inactive: #bb3030c2;
         --range-handle: #bb3030c2;
@@ -257,28 +263,30 @@
     .mightSlider {
         max-width: 70%;
         margin: 0 auto;
+        padding-bottom: 0.5rem;
         --range-slider: #d7dada;
-        --range-handle-inactive: rgba(255, 142, 132, 0.883);
-        --range-handle: rgba(255, 142, 132, 0.883);
-        --range-handle-focus: rgb(255, 142, 132);
+        --range-handle-inactive: rgba(255, 198, 132, 0.7);
+        --range-handle: rgba(255, 198, 132, 0.7);
+        --range-handle-focus: rgb(255, 198, 132);
     }
 
     .sanitySlider {
         max-width: 70%;
         margin: 0 auto;
+        padding-bottom: 0.5rem;
         --range-slider: #d7dada;
-        --range-handle-inactive: #4756e2be;
-        --range-handle: #4756e2be;
-        --range-handle-focus: #382be4;
+        --range-handle-inactive: #7cf1bad8;
+        --range-handle: #7cf1bad8;
+        --range-handle-focus: #7cf1ba;
     }
 
     .knowledgeSlider {
         max-width: 70%;
         margin: 0 auto;
         --range-slider: #d7dada;
-        --range-handle-inactive: #7cf1bad8;
-        --range-handle: #7cf1bad8;
-        --range-handle-focus: #7cf1ba;
+        --range-handle-inactive: #254fc3be;
+        --range-handle: #254fc3be;
+        --range-handle-focus: #1f46c8;
         padding-bottom: 1.5rem;
     }
 </style>
