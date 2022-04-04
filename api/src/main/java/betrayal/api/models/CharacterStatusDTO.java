@@ -1,7 +1,6 @@
 package betrayal.api.models;
 
 import betrayal.domain.Character;
-import betrayal.domain.CharacterStore;
 
 public class CharacterStatusDTO {
 
@@ -72,8 +71,10 @@ public class CharacterStatusDTO {
     }
 
     public static CharacterStatusDTO fromCharacter(Character c) {
-        return new CharacterStatusDTO(c.getName(), c.getAge(), c.getSpeedStats(), c.getDefaultSpIndex(),
-                c.getMightStats(), c.getDefaultMiIndex(), c.getSanityStats(), c.getDefaultSaIndex(),
+        return new CharacterStatusDTO(c.getName(), c.getAge(), c.getSpeedStats(),
+                c.getDefaultSpIndex(),
+                c.getMightStats(), c.getDefaultMiIndex(), c.getSanityStats(),
+                c.getDefaultSaIndex(),
                 c.getKnowledgeStats(), c.getDefaultKnIndex());
     }
 }
