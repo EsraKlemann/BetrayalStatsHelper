@@ -26,7 +26,7 @@
         { id: 6, text: `Heather Granville` },
         { id: 7, text: `Vivian Lopez` },
         { id: 8, text: `Madame Zostra` },
-        { id: 9, text: `Darrin "Flash" Williams` },
+        { id: 9, text: `Darrin 'Flash' Williams` },
         { id: 10, text: `Ox Bellows` },
         { id: 11, text: `Zoe Ingstrom` },
         { id: 12, text: `Miss Dubourde` },
@@ -205,7 +205,7 @@
         <div>
             <img
                 class="charImages"
-                src="./character_images/{character.name}.png"
+                src="./character_images/{selected.text}.png"
                 alt={character.name}
             />
         </div>
