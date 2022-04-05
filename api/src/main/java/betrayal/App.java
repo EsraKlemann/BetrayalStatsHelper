@@ -43,16 +43,9 @@ public class App {
     }
 
     private static void registerServlets(ServletContextHandler context) {
-        // Use the Jersey framework to translate the classes in the
-        // mancala.api package to server endpoints (servlets).
-        // For example, the StartMancala class will become an endpoint at
-        // http://localost:8090/mancala/api/start
         ServletHolder serverHolder = context.addServlet(ServletContainer.class, "/betrayal/api/*");
         serverHolder.setInitOrder(1);
         serverHolder.setInitParameter("jersey.config.server.provider.packages",
                 "betrayal.api");
     }
 }
-// GET /betrayal/api/character?id=1 HTTP/1.1
-// HEADERS
-//
