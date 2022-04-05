@@ -15,6 +15,7 @@
     let sanitySliderStats;
     let knowledgeSliderValue;
     let knowledgeSliderStats;
+    let userName = "";
 
     let characters = [
         { id: 1, text: `Father Rhinehardt` },
@@ -32,43 +33,42 @@
     ];
 
     async function updateCharacterInfo(e) {
-        if (localStorage.getItem(selected.id)) {
-            character = JSON.parse(localStorage.getItem(selected.id));
-            speedSliderValue = character.speedIndex;
+        // if (localStorage.getItem(selected.id)) {
+        //     character = JSON.parse(localStorage.getItem(selected.id));
+        //     speedSliderValue = character.speedIndex;
+        //     speedSliderStats = [...character.speedStats];
+        //     speedSliderStats.unshift("💀");
+        //     mightSliderValue = character.mightIndex;
+        //     mightSliderStats = [...character.mightStats];
+        //     mightSliderStats.unshift("💀");
+        //     sanitySliderValue = character.sanityIndex;
+        //     sanitySliderStats = [...character.sanityStats];
+        //     sanitySliderStats.unshift("💀");
+        //     knowledgeSliderValue = character.knowledgeIndex;
+        //     knowledgeSliderStats = [...character.knowledgeStats];
+        //     knowledgeSliderStats.unshift("💀");
+        //     message = "Saved character";
+        // } else {
+        const response = await fetch(
+            `http://localhost:8090/betrayal/api/character?id=${selected.id}`
+        );
+
+        if (response.ok) {
+            const received = await response.json();
+            character = received;
+            speedSliderValue = character.defaultSpIndex;
             speedSliderStats = [...character.speedStats];
             speedSliderStats.unshift("💀");
-            mightSliderValue = character.mightIndex;
+            mightSliderValue = character.defaultMiIndex;
             mightSliderStats = [...character.mightStats];
             mightSliderStats.unshift("💀");
-            sanitySliderValue = character.sanityIndex;
+            sanitySliderValue = character.defaultSaIndex;
             sanitySliderStats = [...character.sanityStats];
             sanitySliderStats.unshift("💀");
-            knowledgeSliderValue = character.knowledgeIndex;
+            knowledgeSliderValue = character.defaultKnIndex;
             knowledgeSliderStats = [...character.knowledgeStats];
             knowledgeSliderStats.unshift("💀");
-            message = "Saved character";
-        } else {
-            const response = await fetch(
-                `http://localhost:8090/betrayal/api/character?id=${selected.id}`
-            );
-
-            if (response.ok) {
-                const received = await response.json();
-                character = received;
-                speedSliderValue = character.defaultSpIndex;
-                speedSliderStats = [...character.speedStats];
-                speedSliderStats.unshift("💀");
-                mightSliderValue = character.defaultMiIndex;
-                mightSliderStats = [...character.mightStats];
-                mightSliderStats.unshift("💀");
-                sanitySliderValue = character.defaultSaIndex;
-                sanitySliderStats = [...character.sanityStats];
-                sanitySliderStats.unshift("💀");
-                knowledgeSliderValue = character.defaultKnIndex;
-                knowledgeSliderStats = [...character.knowledgeStats];
-                knowledgeSliderStats.unshift("💀");
-                message = "";
-            }
+            message = "";
         }
     }
 
@@ -93,8 +93,42 @@
             sanityIndex: sanitySliderValue,
             knowledgeStats: character.knowledgeStats,
             knowledgeIndex: knowledgeSliderValue,
+            originalID: selected.id,
+            userName: userName
         };
-        localStorage.setItem(selected.id, JSON.stringify(characterSave));
+
+        fetch("http://localhost:8090/betrayal/api/character",{
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(characterSave)
+        });
+        
+    }
+
+    async function handleLoad() {
+        const response = await fetch(
+            `http://localhost:8090/betrayal/api/character?id=${selected.id}&userName=${userName}`
+        );
+
+        if (response.ok) {
+            const received = await response.json();
+            character = received;
+            speedSliderValue = character.defaultSpIndex;
+            speedSliderStats = [...character.speedStats];
+            speedSliderStats.unshift("💀");
+            mightSliderValue = character.defaultMiIndex;
+            mightSliderStats = [...character.mightStats];
+            mightSliderStats.unshift("💀");
+            sanitySliderValue = character.defaultSaIndex;
+            sanitySliderStats = [...character.sanityStats];
+            sanitySliderStats.unshift("💀");
+            knowledgeSliderValue = character.defaultKnIndex;
+            knowledgeSliderStats = [...character.knowledgeStats];
+            knowledgeSliderStats.unshift("💀");
+            message = "";
+        }
     }
 
     let modalHeader = "How does a turn work?";
@@ -184,6 +218,9 @@
                     >
                         Remove saved</button
                     >{/if}
+                
+                <input bind:value={userName} placeholder="Username"> 
+                <button on:click={handleLoad}> Load </button>
                 <button on:click={handleReset}> Default</button>
             </p>
         </div>
