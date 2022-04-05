@@ -1,12 +1,11 @@
 # Betrayal Stats Helper
 
 Node.js required
-
-Omschrijven naar kopieerbare codeblokjes?
+mySQL database
 
 Start front end:
 cd client
-npm install svelte-range-slider-pips --save-dev
+npm install
 npm run dev
 
 Start back end:
