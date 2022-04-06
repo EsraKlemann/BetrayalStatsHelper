@@ -44,17 +44,4 @@ domain
         /main/java/betrayal
                         /Character.java - defines character
                         /CharacterStore.java (leftover)
-
-
-
-
-
-build.gradle
-src/
-   main/
-       (package)/
-            (Java files)
-   test/
-       (package)/
-            (Java test files)
 ```
