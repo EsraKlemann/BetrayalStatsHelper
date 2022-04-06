@@ -29,10 +29,12 @@
         { id: 9, text: `Darrin 'Flash' Williams` },
         { id: 10, text: `Ox Bellows` },
         { id: 11, text: `Zoe Ingstrom` },
-        { id: 12, text: `Miss Dubourde` },
+        { id: 12, text: `Missy Dubourde` },
     ];
 
     async function updateCharacterInfo(e) {
+        //      BELOW IS NEEDED IF WANT TO LOAD FROM LOCALSTORAGE INSTEAD OF DB. 
+        //
         // if (localStorage.getItem(selected.id)) {
         //     character = JSON.parse(localStorage.getItem(selected.id));
         //     speedSliderValue = character.speedIndex;
