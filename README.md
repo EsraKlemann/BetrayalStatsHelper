@@ -21,11 +21,12 @@ npm install
 npm run dev
 ```
 
-A Gradle wrapper is able to start the backend. The following command should be used in a separate terminal:
+The App should now be visible from http://localhost:8080
+Next a Gradle wrapper is able to start the backend. The following command should be used in a separate terminal:
 
 ```
 ./gradlew run
 ```
 
-Right now the app loads and saves characters from a local mySQL database. This one is not initiated locally and can be made by importing the files provided in .......
+Right now the app loads and saves characters from a local mySQL database. This is not initiated locally and can be made by importing the files provided in .......
 A future improvement I am working on is to set up the database automatically.
