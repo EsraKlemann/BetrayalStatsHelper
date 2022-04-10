@@ -4,9 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import betrayal.api.database.*;
-import betrayal.api.models.CharacterStatusDTO;
-import betrayal.api.models.CharacterSaveDTO;
-import betrayal.domain.Character;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
