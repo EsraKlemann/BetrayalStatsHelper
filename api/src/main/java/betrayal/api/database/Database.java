@@ -6,7 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import com.mysql.cj.xdevapi.Result;
 
 import betrayal.domain.Character;
 import betrayal.api.models.CharacterStatusDTO;
@@ -149,5 +153,33 @@ public class Database {
 
         }
         return c;
+    }
+
+    public List<String> getHauntByOmenAndRoom(String room, String omen) throws SQLException {
+        Statement statement = connection.createStatement();
+
+        int hauntID = 0;
+        List<String> hauntInfo = new ArrayList<String>();
+
+        ResultSet firstResultSet = statement
+                .executeQuery("SELECT ` \"" + omen + "\" ` FROM `haunt selection` WHERE `room` = \"" + room + "\"");
+
+        while (firstResultSet.next()) {
+            hauntID = firstResultSet.getInt(room);
+        }
+
+        ResultSet secondResultSet = statement
+                .executeQuery("SELECT * FROM `haunt story tomes` where `idHaunt Story Tomes` = \"" + hauntID + "\"");
+
+        while (firstResultSet.next()) {
+            String haunt = secondResultSet.getString("haunt");
+            String survivalStory = secondResultSet.getString("survivaltome");
+            String traitorStory = secondResultSet.getString("traitorstome");
+            hauntInfo.add(haunt);
+            hauntInfo.add(survivalStory);
+            hauntInfo.add(traitorStory);
+        }
+
+        return hauntInfo;
     }
 }
