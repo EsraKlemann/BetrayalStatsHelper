@@ -4,8 +4,19 @@
 
     let message = " ";
     let character;
+    let haunt;
+    let betrayer;
+    let traitorStory;
+    let survivorStory;
+
+    let hasChosenSurvivor = false;
+    let hasChosenTraitor = false;
 
     let selected = { id: 0, text: " " };
+    let omenPlaceholder = { id: 0, text: `Omen` };
+    let selectedOmen = omenPlaceholder;
+    let roomPlaceholder = { id: 0, text: `Room` };
+    let selectedRoom = roomPlaceholder;
 
     let speedSliderValue;
     let speedSliderStats;
@@ -32,8 +43,54 @@
         { id: 12, text: `Missy Dubourde` },
     ];
 
+    let rooms = [
+        { id: 1, text: `Abandoned Room` },
+        { id: 2, text: `Balcony` },
+        { id: 3, text: `Catacombs` },
+        { id: 4, text: `Charred Room` },
+        { id: 5, text: `Dining Room` },
+        { id: 6, text: `Furnace Room` },
+        { id: 7, text: `Gallery` },
+        { id: 8, text: `Gymnasium` },
+        { id: 9, text: `Junk Room` },
+        { id: 10, text: `Kitchen` },
+        { id: 11, text: `Master Bedroom` },
+        { id: 12, text: `Pentagram Chamber` },
+        { id: 13, text: `Servant's Quarters` },
+    ];
+
+    let omens = [
+        { id: 1, text: `Bite` },
+        { id: 2, text: `Book` },
+        { id: 3, text: `Crystal Ball` },
+        { id: 4, text: `Dog` },
+        { id: 5, text: `Girl` },
+        { id: 6, text: `Holy Symbol` },
+        { id: 7, text: `Madman` },
+        { id: 8, text: `Mask` },
+        { id: 9, text: `Medallion` },
+        { id: 10, text: `Ring` },
+        { id: 11, text: `Skull` },
+        { id: 12, text: `Spear` },
+        { id: 13, text: `Spirit Board` },
+    ];
+
+    async function searchHaunt() {
+        const response = await fetch(
+            `http://localhost:8090/betrayal/api/haunt?omen=${selectedOmen.text}&room=${selectedRoom.text}`
+        );
+
+        if (response.ok) {
+            const received = await response.json();
+            haunt = received;
+            betrayer = haunt.haunt;
+            survivorStory = haunt.survivalStory;
+            traitorStory = haunt.traitorStory;
+        }
+    }
+
     async function updateCharacterInfo(e) {
-        //      BELOW IS NEEDED IF WANT TO LOAD FROM LOCALSTORAGE INSTEAD OF DB. 
+        //      BELOW IS NEEDED IF WANT TO LOAD FROM LOCALSTORAGE INSTEAD OF DB.
         //
         // if (localStorage.getItem(selected.id)) {
         //     character = JSON.parse(localStorage.getItem(selected.id));
@@ -96,17 +153,16 @@
             knowledgeStats: character.knowledgeStats,
             knowledgeIndex: knowledgeSliderValue,
             originalID: selected.id,
-            userName: userName
+            userName: userName,
         };
 
-        fetch("http://localhost:8090/betrayal/api/character",{
+        fetch("http://localhost:8090/betrayal/api/character", {
             method: "POST",
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
             },
-            body: JSON.stringify(characterSave)
+            body: JSON.stringify(characterSave),
         });
-        
     }
 
     async function handleLoad() {
@@ -134,13 +190,22 @@
     }
 
     let modalHeader = "How does a turn work?";
+
+    function resetTraitorSurvivor() {
+        hasChosenSurvivor = false;
+        hasChosenTraitor = false;
+        getModal("resetModal").close();
+    }
 </script>
 
 <header>
-    <button class="explanationModal" on:click={() => getModal().open()}>
+    <button
+        class="explanationModal"
+        on:click={() => getModal("explanationTextModal").open()}
+    >
         ❓
     </button>
-    <Modal>
+    <Modal id="explanationTextModal">
         <h1>{modalHeader}</h1>
         <h4>
             We are all explorers of a haunted house. At some point during the
@@ -186,6 +251,95 @@
             13 of rulebook for more rules and Special Attack Brief synopsis.
         </p>
     </Modal>
+
+    <button id="hauntSelectBtn" on:click={() => getModal("hauntModal").open()}>
+        The Haunt! 👻
+    </button>
+
+    <Modal id="hauntModal">
+        <h1>Haunt Selector</h1>
+        <h3>Select the Omen and Room where it was found</h3>
+
+        <div
+            style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1em"
+        >
+            <select class="hauntSelectDropdown" bind:value={selectedOmen}>
+                <option value={omenPlaceholder} disabled selected
+                    >{omenPlaceholder.text}</option
+                >
+                {#each omens as omen}
+                    <option value={omen}>{omen.text}</option>
+                {/each}
+            </select>
+
+            <select class="hauntSelectDropdown" bind:value={selectedRoom}>
+                <option value={roomPlaceholder} disabled selected
+                    >{roomPlaceholder.text}</option
+                >
+                {#each rooms as room}
+                    <option value={room}>{room.text}</option>
+                {/each}
+            </select>
+        </div>
+        {#if selectedOmen.id != 0 && selectedRoom.id != 0}
+            <button
+                id="searchHauntConfirm"
+                on:click={() =>
+                    getModal("secondHauntmodal").open(searchHaunt())}
+            >
+                Reveal Haunt
+            </button>
+        {/if}
+    </Modal>
+
+    <Modal id="secondHauntmodal">
+        <h3 id="whoIsBetrayerTxt">
+            The haunt has turned '{betrayer}' to the Betrayer!
+        </h3>
+        <p>
+            If you would like to read the tome of this Haunt please choose your
+            role:
+        </p>
+
+        <button
+            disabled={hasChosenTraitor}
+            id="iAmSurvivorBtn"
+            on:click={() =>
+                getModal("survivorStory").open((hasChosenSurvivor = true))}
+        >
+            I am a Survivor
+        </button>
+
+        <button
+            disabled={hasChosenSurvivor}
+            id="iAmBetrayerBtn"
+            on:click={() =>
+                getModal("betrayerStory").open((hasChosenTraitor = true))}
+        >
+            I am the Betrayer
+        </button>
+
+        <div>
+            <button id="oopsBtn" on:click={() => getModal("resetModal").open()}>
+                Oops!
+            </button>
+        </div>
+    </Modal>
+
+    <Modal id="survivorStory">
+        {@html survivorStory}
+    </Modal>
+    <Modal id="betrayerStory">
+        {@html traitorStory}
+    </Modal>
+    <Modal id="resetModal">
+        I promise I am not cheating and chose the wrong role by accident
+        <div>
+            <button id="resetBtn" on:click={() => resetTraitorSurvivor()}>
+                Promise
+            </button>
+        </div>
+    </Modal>
 </header>
 
 <main>
@@ -220,8 +374,8 @@
                     >
                         Remove saved</button
                     >{/if}
-                
-                <input bind:value={userName} placeholder="Username"> 
+
+                <input bind:value={userName} placeholder="Username" />
                 <button on:click={handleLoad}> Load </button>
                 <button on:click={handleReset}> Default</button>
             </p>
@@ -304,6 +458,10 @@
 <style>
     header {
         margin: 0;
+    }
+
+    #oopsBtn {
+        font-size: 0.6rem;
     }
 
     .explanationModal {

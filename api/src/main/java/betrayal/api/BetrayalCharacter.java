@@ -46,19 +46,4 @@ public class BetrayalCharacter {
         return Response.status(200).build();
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getHaunt(@Context HttpServletRequest request, @QueryParam("room") String room,
-            @QueryParam("omen") String omen) {
-        List<String> haunt = null;
-        try {
-            haunt = Database.database.getHauntByOmenAndRoom(room, omen);
-            System.out.println("Sending DB response");
-            return Response.status(200).entity(haunt).build();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return Response.status(500).build();
-        }
-
-    }
 }

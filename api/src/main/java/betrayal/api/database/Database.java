@@ -162,22 +162,24 @@ public class Database {
         List<String> hauntInfo = new ArrayList<String>();
 
         ResultSet firstResultSet = statement
-                .executeQuery("SELECT ` \"" + omen + "\" ` FROM `haunt selection` WHERE `room` = \"" + room + "\"");
+                .executeQuery("SELECT `" + omen + "` FROM `haunt selection` WHERE `room` = \"" + room + "\"");
 
         while (firstResultSet.next()) {
-            hauntID = firstResultSet.getInt(room);
+            hauntID = firstResultSet.getInt(omen);
+            System.out.println(hauntID);
         }
 
         ResultSet secondResultSet = statement
                 .executeQuery("SELECT * FROM `haunt story tomes` where `idHaunt Story Tomes` = \"" + hauntID + "\"");
 
-        while (firstResultSet.next()) {
+        while (secondResultSet.next()) {
             String haunt = secondResultSet.getString("haunt");
             String survivalStory = secondResultSet.getString("survivaltome");
             String traitorStory = secondResultSet.getString("traitorstome");
             hauntInfo.add(haunt);
             hauntInfo.add(survivalStory);
             hauntInfo.add(traitorStory);
+            System.out.println(haunt);
         }
 
         return hauntInfo;
